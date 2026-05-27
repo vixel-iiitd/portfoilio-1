@@ -30,6 +30,9 @@ export const metadata: Metadata = {
     "System Design",
   ],
   authors: [{ name: "Rahul Kumar" }],
+  verification: {
+    google: "7OOJ2GLCvAoHZiTSYV7EKLaXu51IXXZvB5JmNQl5eqU",
+  },
   openGraph: {
     title: "Rahul Kumar — Backend Engineer",
     description: "Backend engineer with Codeforces Expert rank. IIIT Delhi.",
