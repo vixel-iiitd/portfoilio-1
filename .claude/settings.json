@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:codeforces.com)",
+      "WebFetch(domain:leetcode.com)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:www.linkedin.com)",
+      "WebFetch(domain:alfa-leetcode-api.onrender.com)",
+      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --yes)",
+      "Bash(node -e \"const l = require\\('lucide-react'\\); const keys = Object.keys\\(l\\); console.log\\(keys.filter\\(k => k.toLowerCase\\(\\).includes\\('link'\\) || k.toLowerCase\\(\\).includes\\('linkedin'\\)\\).join\\('\\\\n'\\)\\)\")",
+      "Bash(node -e \"const l = require\\('lucide-react'\\); const keys = Object.keys\\(l\\); console.log\\(keys.filter\\(k => !k.includes\\('Icon'\\) && !k.includes\\('Lucide'\\) && k.length < 20\\).slice\\(0, 80\\).sort\\(\\).join\\('\\\\n'\\)\\)\")"
+    ]
+  }
+}
