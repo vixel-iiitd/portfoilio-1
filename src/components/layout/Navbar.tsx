@@ -1,8 +1,114 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+
+const TRACK_NAME = "bg music"; // update after you upload your MP3
+
+function MusicPlayer() {
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const [playing, setPlaying] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const [attracting, setAttracting] = useState(true);
+
+  useEffect(() => {
+    setMounted(true);
+    // Stop the attract animation after 3 seconds
+    const t = setTimeout(() => setAttracting(false), 3200);
+    return () => clearTimeout(t);
+  }, []);
+
+  const toggle = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    setAttracting(false);
+    if (playing) {
+      audio.pause();
+      setPlaying(false);
+    } else {
+      audio.volume = 0.35;
+      audio.play().then(() => setPlaying(true)).catch(() => {});
+    }
+  };
+
+  if (!mounted) return null;
+
+  return (
+    <div className="relative flex items-center">
+      <audio ref={audioRef} src="/music.mp3" loop preload="auto" />
+
+      {/* Pulsing glow ring — visible for first 3 s */}
+      {attracting && (
+        <>
+          <motion.span
+            className="absolute inset-0 rounded-md border border-[#4f8ef7]"
+            animate={{ scale: [1, 1.6], opacity: [0.7, 0] }}
+            transition={{ duration: 1.1, repeat: 2, ease: "easeOut", repeatDelay: 0.15 }}
+          />
+          <motion.span
+            className="absolute inset-0 rounded-md border border-[#4f8ef7]"
+            animate={{ scale: [1, 1.4], opacity: [0.4, 0] }}
+            transition={{ duration: 1.1, repeat: 2, ease: "easeOut", delay: 0.3, repeatDelay: 0.15 }}
+          />
+        </>
+      )}
+
+      <motion.button
+        onClick={toggle}
+        whileHover={{
+          boxShadow: "0 0 14px 4px rgba(79,142,247,0.35)",
+          borderColor: "rgba(79,142,247,0.6)",
+        }}
+        animate={attracting ? {
+          borderColor: ["rgba(79,142,247,0.2)", "rgba(79,142,247,0.7)", "rgba(79,142,247,0.2)"],
+          boxShadow: [
+            "0 0 0px 0px rgba(79,142,247,0)",
+            "0 0 12px 3px rgba(79,142,247,0.3)",
+            "0 0 0px 0px rgba(79,142,247,0)",
+          ],
+        } : {}}
+        transition={attracting ? { duration: 1.1, repeat: 2, ease: "easeInOut", repeatDelay: 0.15 } : { duration: 0.2 }}
+        title={playing ? `Pause — ${TRACK_NAME}` : `Play music`}
+        className={cn(
+          "relative flex items-center gap-2 px-2.5 py-1.5 rounded-md border transition-colors duration-200 cursor-pointer",
+          playing ? "border-[#4f8ef7]/40 bg-[#4f8ef7]/[0.04]" : "border-[#222]"
+        )}
+      >
+        {/* Waveform bars */}
+        <div className="flex items-end gap-[2.5px] h-3.5">
+          {[0.9, 0.6, 1.0, 0.7].map((duration, i) => (
+            <motion.span
+              key={i}
+              className="w-[2px] rounded-full"
+              style={{ backgroundColor: playing ? "#4f8ef7" : attracting ? "#4f8ef7" : "#444" }}
+              animate={
+                playing
+                  ? { height: ["3px", "12px", "5px", "10px", "3px"] }
+                  : attracting
+                  ? { height: ["3px", "9px", "4px", "11px", "3px"] }
+                  : { height: "4px" }
+              }
+              transition={
+                playing || attracting
+                  ? { duration, repeat: Infinity, ease: "easeInOut", delay: i * 0.12 }
+                  : { duration: 0.2 }
+              }
+            />
+          ))}
+        </div>
+
+        {/* Label */}
+        <span className={cn(
+          "text-[11px] font-code leading-none transition-colors duration-200",
+          playing ? "text-[#4f8ef7]" : attracting ? "text-[#4f8ef7]" : "text-[#555]"
+        )}>
+          {playing ? TRACK_NAME : "music"}
+        </span>
+      </motion.button>
+    </div>
+  );
+}
 
 const NAV_ITEMS = [
   { label: "About", href: "#about" },
@@ -93,8 +199,9 @@ export default function Navbar() {
             })}
           </div>
 
-          {/* Resume CTA */}
+          {/* Resume CTA + Music Player */}
           <div className="hidden md:flex items-center gap-3">
+            <MusicPlayer />
             <a
               href="https://drive.google.com/file/d/1vf6juzBnN4DDvbw_gH95cMx7KWgzyITc/view"
               target="_blank"
@@ -146,6 +253,9 @@ export default function Navbar() {
               >
                 Resume
               </a>
+              <div className="mt-2 px-1">
+                <MusicPlayer />
+              </div>
             </div>
           </motion.div>
         )}
