@@ -75,7 +75,7 @@ export default function Contact() {
           className="mb-16 text-center"
         >
           <div className="flex items-center justify-center gap-3 mb-4">
-            <span className="font-code text-xs text-[#4f8ef7]">06</span>
+            <span className="font-code text-xs text-[#4f8ef7]">07</span>
             <div className="h-px w-10 bg-[#1a1a1a]" />
             <span className="text-xs text-[#444] font-code uppercase tracking-widest">Contact</span>
           </div>
@@ -129,7 +129,7 @@ export default function Contact() {
               viewport={{ once: true }}
               transition={{ delay: i * 0.07, duration: 0.5 }}
               whileHover={{ y: -3 }}
-              className="group flex items-start gap-4 p-5 border border-[#161616] bg-[#0a0a0a] rounded-xl card-hover"
+              className="group flex items-start gap-4 p-5 border border-[#1e1e35] bg-[#0a0a18] rounded-xl card-hover"
             >
               <div
                 className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 mt-0.5"
@@ -163,7 +163,7 @@ export default function Contact() {
           viewport={{ once: true }}
           className="mt-12 flex justify-center"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 border border-[#1a1a1a] bg-[#0a0a0a] rounded-full text-xs text-[#666] font-code">
+          <div className="inline-flex items-center gap-2 px-4 py-2 border border-[#1a1a30] bg-[#0a0a18] rounded-full text-xs text-[#666] font-code">
             <span className="w-1.5 h-1.5 rounded-full bg-[#4f8ef7] animate-pulse" />
             Currently: SWE II at Google · Open to interesting conversations
           </div>

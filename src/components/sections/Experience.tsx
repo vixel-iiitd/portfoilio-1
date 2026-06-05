@@ -139,7 +139,7 @@ function TimelineItem({ event, index }: { event: TimelineEvent; index: number })
         className="flex-1 pb-10 pr-6 md:pr-0 md:flex-none md:w-[calc(50%-2rem)]"
       >
         <div
-          className="p-5 border border-[#161616] bg-[#0a0a0a] rounded-xl card-hover group"
+          className="p-5 border border-[#1e1e35] bg-[#0a0a18] rounded-xl card-hover group"
         >
           {/* Period */}
           <div

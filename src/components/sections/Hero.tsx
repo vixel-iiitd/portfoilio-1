@@ -10,6 +10,9 @@ const ROTATING_TITLES = [
   "System Thinker",
   "Builder",
   "Algorithm Designer",
+  "Google SWE II",
+  "System Architect",
+  "Open Source Builder",
 ];
 
 function useTypingEffect(words: string[], speed = 80, pause = 1800) {
@@ -91,12 +94,46 @@ function PhotoPlaceholder() {
       {/* Outer glow */}
       <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#4f8ef7]/15 via-transparent to-[#22d3ee]/15 blur-2xl scale-110" />
 
+      {/* Spinning dashed ring behind photo */}
+      <div
+        className="absolute animate-spin-slow"
+        style={{
+          width: "calc(100% + 40px)",
+          height: "calc(100% + 40px)",
+          top: -20,
+          left: -20,
+          borderRadius: "28px",
+          border: "1px dashed rgba(79,142,247,0.18)",
+          pointerEvents: "none",
+        }}
+      />
+
+      {/* Floating decorative dots */}
+      <motion.div
+        animate={{ y: [0, -6, 0], opacity: [0.5, 1, 0.5] }}
+        transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute -top-3 -right-3 w-3 h-3 rounded-full bg-[#4f8ef7]/60"
+        style={{ boxShadow: "0 0 8px rgba(79,142,247,0.6)" }}
+      />
+      <motion.div
+        animate={{ y: [0, 5, 0], opacity: [0.4, 0.8, 0.4] }}
+        transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+        className="absolute -bottom-2 -left-4 w-2 h-2 rounded-full bg-[#22d3ee]/60"
+        style={{ boxShadow: "0 0 6px rgba(34,211,238,0.5)" }}
+      />
+      <motion.div
+        animate={{ y: [0, -4, 0], opacity: [0.3, 0.7, 0.3] }}
+        transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+        className="absolute top-1/2 -right-5 w-1.5 h-1.5 rounded-full bg-[#a78bfa]/60"
+        style={{ boxShadow: "0 0 5px rgba(167,139,250,0.5)" }}
+      />
+
       {/* Decorative corner brackets */}
       <div className="absolute -top-3 -left-3 w-8 h-8 border-t-2 border-l-2 border-[#4f8ef7]/40 rounded-tl-lg" />
       <div className="absolute -bottom-3 -right-3 w-8 h-8 border-b-2 border-r-2 border-[#22d3ee]/40 rounded-br-lg" />
 
       {/* Photo box */}
-      <div className="relative w-64 h-64 sm:w-72 sm:h-72 lg:w-80 lg:h-80 rounded-2xl overflow-hidden border border-[#1e1e1e] bg-[#0d0d0d]">
+      <div className="relative w-64 h-64 sm:w-72 sm:h-72 lg:w-80 lg:h-80 rounded-2xl overflow-hidden border border-[#1e1e38] bg-[#0c0c1c]">
 
         {/* Layer 1 (bottom): placeholder — always rendered, fades out when photo loads */}
         <div
@@ -134,10 +171,24 @@ function PhotoPlaceholder() {
 
 export default function Hero() {
   const typedText = useTypingEffect(ROTATING_TITLES);
+  const sectionRef = useRef<HTMLElement>(null);
+  const [mouseOffset, setMouseOffset] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
+    const rect = sectionRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const dx = (e.clientX - cx) / rect.width;
+    const dy = (e.clientY - cy) / rect.height;
+    setMouseOffset({ x: dx * 8, y: dy * 5 });
+  }, []);
 
   return (
     <section
       id="hero"
+      ref={sectionRef}
+      onMouseMove={handleMouseMove}
       className="relative min-h-screen flex flex-col justify-center overflow-hidden"
     >
       {/* Background grid */}
@@ -170,8 +221,14 @@ export default function Hero() {
           >
             {/* Badge */}
             <motion.div variants={item} className="mb-8">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 border border-[#1f1f1f] bg-[#111] rounded-full text-xs text-[#888] font-code">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#4f8ef7] animate-pulse" />
+              <div
+                className="inline-flex items-center gap-2 px-3 py-1.5 border border-[#1f1f1f] bg-[#0d0d18] rounded-full text-xs text-[#888] font-code"
+                style={{ boxShadow: "0 0 20px rgba(79,142,247,0.08)" }}
+              >
+                <span
+                  className="w-1.5 h-1.5 rounded-full bg-[#4f8ef7] animate-pulse"
+                  style={{ boxShadow: "0 0 6px rgba(79,142,247,0.8)" }}
+                />
                 SWE II · Google Play Analytics
               </div>
             </motion.div>
@@ -209,39 +266,47 @@ export default function Hero() {
 
             {/* CTA Buttons */}
             <motion.div variants={item} className="flex flex-wrap gap-3 mb-12">
-              <a
+              <motion.a
                 href="https://drive.google.com/file/d/1vf6juzBnN4DDvbw_gH95cMx7KWgzyITc/view"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#4f8ef7] hover:bg-[#3d7de6] text-white text-sm font-medium rounded-lg transition-all duration-200 shadow-lg shadow-[#4f8ef7]/20"
+                whileHover={{ scale: 1.02, y: -1 }}
+                whileTap={{ scale: 0.98 }}
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#4f8ef7] hover:bg-[#3d7de6] text-white text-sm font-medium rounded-lg transition-colors duration-200 shadow-lg shadow-[#4f8ef7]/20"
               >
                 <FileText size={15} />
                 Resume
-              </a>
-              <a
+              </motion.a>
+              <motion.a
                 href="https://github.com/vixel-iiitd"
                 target="_blank"
                 rel="noopener noreferrer"
+                whileHover={{ scale: 1.02, y: -1 }}
+                whileTap={{ scale: 0.98 }}
                 className="inline-flex items-center gap-2 px-5 py-2.5 border border-[#2a2a2a] text-[#bbb] hover:text-[#f0f0f0] hover:border-[#3a3a3a] text-sm font-medium rounded-lg transition-all duration-200"
               >
                 <GitBranch size={15} />
                 GitHub
-              </a>
-              <a
+              </motion.a>
+              <motion.a
                 href="https://codeforces.com/profile/Vixel"
                 target="_blank"
                 rel="noopener noreferrer"
+                whileHover={{ scale: 1.02, y: -1 }}
+                whileTap={{ scale: 0.98 }}
                 className="inline-flex items-center gap-2 px-5 py-2.5 border border-[#2a2a2a] text-[#bbb] hover:text-[#f0f0f0] hover:border-[#3a3a3a] text-sm font-medium rounded-lg transition-all duration-200"
               >
                 <Terminal size={15} />
                 Codeforces
-              </a>
-              <button
+              </motion.a>
+              <motion.button
                 onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
+                whileHover={{ scale: 1.02, y: -1 }}
+                whileTap={{ scale: 0.98 }}
                 className="inline-flex items-center gap-2 px-5 py-2.5 border border-[#2a2a2a] text-[#bbb] hover:text-[#f0f0f0] hover:border-[#3a3a3a] text-sm font-medium rounded-lg transition-all duration-200"
               >
                 Contact
-              </button>
+              </motion.button>
             </motion.div>
 
             {/* Stats */}
@@ -249,25 +314,34 @@ export default function Hero() {
               variants={item}
               className="grid grid-cols-2 sm:grid-cols-4 gap-3"
             >
-              {STATS.map((stat) => (
-                <div
+              {STATS.map((stat, i) => (
+                <motion.div
                   key={stat.label}
-                  className="p-4 border border-[#161616] bg-[#0d0d0d] rounded-xl hover:border-[#222] transition-colors duration-200"
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6 + i * 0.08, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                  whileHover={{ scale: 1.04, y: -2 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="glass-card p-4 rounded-xl cursor-default"
                 >
                   <div className="text-2xl font-bold text-[#f0f0f0] mb-0.5 font-code">
                     {stat.value}
                   </div>
                   <div className="text-xs text-[#4f8ef7] font-medium mb-0.5">{stat.sub}</div>
                   <div className="text-xs text-[#666]">{stat.label}</div>
-                </div>
+                </motion.div>
               ))}
             </motion.div>
           </motion.div>
 
-          {/* Right: photo */}
-          <div className="flex justify-center lg:justify-end lg:flex-shrink-0">
+          {/* Right: photo — with parallax offset */}
+          <motion.div
+            className="flex justify-center lg:justify-end lg:flex-shrink-0"
+            style={{ transform: `translate(${mouseOffset.x * 1.5}px, ${mouseOffset.y * 1.5}px)` }}
+            transition={{ type: "spring", stiffness: 120, damping: 20 }}
+          >
             <PhotoPlaceholder />
-          </div>
+          </motion.div>
 
         </div>
       </div>

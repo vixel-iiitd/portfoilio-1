@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import AmbientBackground from "@/components/ui/AmbientBackground";
+import KonamiCode from "@/components/ui/KonamiCode";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -55,7 +57,9 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable}`}
     >
-      <body className="min-h-screen bg-[#080808] text-[#f0f0f0] antialiased overflow-x-hidden">
+      <body className="min-h-screen bg-[#06060f] text-[#f0f0f0] antialiased overflow-x-hidden">
+        <AmbientBackground />
+        <KonamiCode />
         {children}
       </body>
     </html>

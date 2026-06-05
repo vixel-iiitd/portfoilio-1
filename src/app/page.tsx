@@ -6,6 +6,7 @@ import CompetitiveProgramming from "@/components/sections/CompetitiveProgramming
 import Projects from "@/components/sections/Projects";
 import Experience from "@/components/sections/Experience";
 import Skills from "@/components/sections/Skills";
+import MemoryWall from "@/components/sections/MemoryWall";
 import Contact from "@/components/sections/Contact";
 import CommandPalette from "@/components/ui/CommandPalette";
 
@@ -20,6 +21,7 @@ export default function Home() {
         <Projects />
         <Experience />
         <Skills />
+        <MemoryWall />
         <Contact />
       </main>
       <Footer />

@@ -116,6 +116,7 @@ const NAV_ITEMS = [
   { label: "Projects", href: "#projects" },
   { label: "Experience", href: "#experience" },
   { label: "Skills", href: "#skills" },
+  { label: "Memories", href: "#memory" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -157,7 +158,7 @@ export default function Navbar() {
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
           scrolled
-            ? "bg-[#080808]/80 backdrop-blur-xl border-b border-[#1a1a1a]"
+            ? "bg-[#080808]/80 backdrop-blur-xl border-b border-[#1a1a30]"
             : "bg-transparent"
         )}
       >
@@ -233,7 +234,7 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="fixed top-16 left-0 right-0 z-40 bg-[#0a0a0a]/95 backdrop-blur-xl border-b border-[#1a1a1a] md:hidden"
+            className="fixed top-16 left-0 right-0 z-40 bg-[#0a0a18]/95 backdrop-blur-xl border-b border-[#1a1a30] md:hidden"
           >
             <div className="max-w-6xl mx-auto px-6 py-4 flex flex-col gap-1">
               {NAV_ITEMS.map((item) => (

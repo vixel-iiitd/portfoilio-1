@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { GitBranch, ExternalLink, ChevronDown, X } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -147,6 +147,79 @@ const STATUS_COLORS = {
 
 const CATEGORIES = ["All", "Backend", "Full-Stack", "Frontend", "Competitive Programming", "ML / Data Science"];
 
+interface TiltState {
+  rotateX: number;
+  rotateY: number;
+  glareX: number;
+  glareY: number;
+  active: boolean;
+}
+
+function TiltCard({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [tilt, setTilt] = useState<TiltState>({
+    rotateX: 0,
+    rotateY: 0,
+    glareX: 50,
+    glareY: 50,
+    active: false,
+  });
+
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const card = cardRef.current;
+    if (!card) return;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const cx = rect.width / 2;
+    const cy = rect.height / 2;
+    const rotateY = ((x - cx) / cx) * 8;
+    const rotateX = -((y - cy) / cy) * 8;
+    const glareX = (x / rect.width) * 100;
+    const glareY = (y / rect.height) * 100;
+    setTilt({ rotateX, rotateY, glareX, glareY, active: true });
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    setTilt({ rotateX: 0, rotateY: 0, glareX: 50, glareY: 50, active: false });
+  }, []);
+
+  return (
+    <div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className={className}
+      style={{
+        transform: `perspective(1000px) rotateX(${tilt.rotateX}deg) rotateY(${tilt.rotateY}deg)`,
+        transition: tilt.active ? "transform 0.08s ease-out" : "transform 0.4s ease-out",
+        transformStyle: "preserve-3d",
+        position: "relative",
+      }}
+    >
+      {children}
+      {/* Shimmer/glare overlay */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          borderRadius: "inherit",
+          background: `radial-gradient(circle at ${tilt.glareX}% ${tilt.glareY}%, rgba(255,255,255,0.06) 0%, transparent 60%)`,
+          opacity: tilt.active ? 1 : 0,
+          transition: "opacity 0.3s ease",
+          pointerEvents: "none",
+        }}
+      />
+    </div>
+  );
+}
+
 function ProjectCard({
   project,
   onClick,
@@ -155,11 +228,12 @@ function ProjectCard({
   onClick: () => void;
 }) {
   return (
+    <TiltCard className="h-full">
     <motion.div
       layoutId={`card-${project.id}`}
       onClick={onClick}
       whileHover={{ y: -4 }}
-      className="group relative border border-[#161616] bg-[#0a0a0a] rounded-2xl p-5 cursor-pointer card-hover overflow-hidden"
+      className="group relative border border-[#1e1e35] bg-[#0a0a18] rounded-2xl p-5 cursor-pointer card-hover overflow-hidden h-full"
     >
       {/* Accent border top */}
       <div
@@ -205,7 +279,7 @@ function ProjectCard({
         {project.tech.slice(0, 4).map((t) => (
           <span
             key={t}
-            className="text-xs font-code px-2 py-0.5 bg-[#111] border border-[#1e1e1e] text-[#666] rounded"
+            className="text-xs font-code px-2 py-0.5 bg-[#0f0f1e] border border-[#1e1e38] text-[#666] rounded"
           >
             {t}
           </span>
@@ -217,6 +291,7 @@ function ProjectCard({
         )}
       </div>
     </motion.div>
+    </TiltCard>
   );
 }
 
@@ -241,11 +316,11 @@ function ProjectModal({
         exit={{ opacity: 0, y: 10, scale: 0.97 }}
         transition={{ type: "spring", bounce: 0.2, duration: 0.5 }}
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-2xl max-h-[85vh] overflow-y-auto bg-[#0d0d0d] border border-[#1e1e1e] rounded-2xl"
+        className="relative w-full max-w-2xl max-h-[85vh] overflow-y-auto bg-[#0c0c1c] border border-[#1e1e38] rounded-2xl"
       >
         {/* Header */}
         <div
-          className="sticky top-0 z-10 flex items-center justify-between p-6 bg-[#0d0d0d] border-b border-[#141414]"
+          className="sticky top-0 z-10 flex items-center justify-between p-6 bg-[#0c0c1c] border-b border-[#16162a]"
           style={{
             boxShadow: `0 1px 0 0 ${project.accent}20`,
           }}
@@ -302,7 +377,7 @@ function ProjectModal({
               {project.tech.map((t) => (
                 <span
                   key={t}
-                  className="text-xs font-code px-3 py-1 bg-[#111] border border-[#1e1e1e] text-[#888] rounded-md"
+                  className="text-xs font-code px-3 py-1 bg-[#0f0f1e] border border-[#1e1e38] text-[#888] rounded-md"
                 >
                   {t}
                 </span>
@@ -311,7 +386,7 @@ function ProjectModal({
           </div>
 
           {/* Links */}
-          <div className="flex gap-3 pt-2 border-t border-[#141414]">
+          <div className="flex gap-3 pt-2 border-t border-[#16162a]">
             {project.github && (
               <a
                 href={project.github}
@@ -396,7 +471,7 @@ export default function Projects() {
                 "px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-150",
                 activeCategory === cat
                   ? "bg-[#4f8ef7] text-white"
-                  : "border border-[#1e1e1e] text-[#666] hover:text-[#aaa] hover:border-[#2a2a2a]"
+                  : "border border-[#1e1e38] text-[#666] hover:text-[#aaa] hover:border-[#2a2a2a]"
               )}
             >
               {cat}

@@ -149,7 +149,7 @@ export default function About() {
           >
             <div
               ref={constraintsRef}
-              className="relative border border-[#161616] bg-[#0a0a0a] rounded-2xl p-6 min-h-[280px] overflow-hidden"
+              className="relative border border-[#1e1e35] bg-[#0a0a18] rounded-2xl p-6 min-h-[280px] overflow-hidden"
             >
               {/* Background pattern */}
               <div className="absolute inset-0 grid-bg opacity-30 rounded-2xl" />
@@ -167,7 +167,7 @@ export default function About() {
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.04, duration: 0.4 }}
                     whileHover={{ scale: 1.08, y: -2 }}
-                    className="px-3 py-1 text-xs font-code border border-[#1e1e1e] bg-[#111] text-[#888] rounded-md cursor-default hover:border-[#4f8ef7]/30 hover:text-[#f0f0f0] transition-all duration-150"
+                    className="px-3 py-1 text-xs font-code border border-[#1e1e38] bg-[#0f0f1e] text-[#888] rounded-md cursor-default hover:border-[#4f8ef7]/30 hover:text-[#f0f0f0] transition-all duration-150"
                   >
                     {tech}
                   </motion.span>
@@ -188,7 +188,7 @@ export default function About() {
               whileInView="show"
               viewport={{ once: true }}
               whileHover={{ y: -3 }}
-              className="p-5 border border-[#161616] bg-[#0a0a0a] rounded-xl card-hover group"
+              className="p-5 border border-[#1e1e35] bg-[#0a0a18] rounded-xl card-hover group"
             >
               <div
                 className="w-8 h-8 rounded-lg flex items-center justify-center mb-3"

@@ -383,7 +383,7 @@ export default function CompetitiveProgramming() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.08, duration: 0.6 }}
-              className="p-5 border border-[#161616] bg-[#0a0a0a] rounded-xl hover:border-[#222] transition-colors"
+              className="p-5 border border-[#1e1e35] bg-[#0a0a18] rounded-xl hover:border-[#222] transition-colors"
             >
               <metric.icon size={16} style={{ color: metric.color }} className="mb-3 opacity-70" />
               <div className="text-3xl font-bold font-code text-[#f0f0f0] mb-1">
@@ -409,7 +409,7 @@ export default function CompetitiveProgramming() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
-            className="border border-[#161616] bg-[#0a0a0a] rounded-2xl p-6"
+            className="border border-[#1e1e35] bg-[#0a0a18] rounded-2xl p-6"
           >
             <div className="flex items-center justify-between mb-5">
               <div>
@@ -448,7 +448,7 @@ export default function CompetitiveProgramming() {
             </div>
 
             {/* Journey milestones */}
-            <div className="mt-5 grid grid-cols-4 gap-2 pt-4 border-t border-[#141414]">
+            <div className="mt-5 grid grid-cols-4 gap-2 pt-4 border-t border-[#16162a]">
               {[
                 { label: "First contest", value: "1371", date: "Apr '20", color: "#555" },
                 { label: "Lowest point", value: "529",  date: "Jan '21", color: "#f472b6" },
@@ -472,7 +472,7 @@ export default function CompetitiveProgramming() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="border border-[#161616] bg-[#0a0a0a] rounded-2xl p-6"
+            className="border border-[#1e1e35] bg-[#0a0a18] rounded-2xl p-6"
           >
             <div className="mb-6">
               <h3 className="text-base font-semibold text-[#e0e0e0]">
@@ -507,7 +507,7 @@ export default function CompetitiveProgramming() {
               viewport={{ once: true }}
               transition={{ delay: i * 0.1, duration: 0.6 }}
               whileHover={{ y: -4 }}
-              className="block p-5 border border-[#161616] bg-[#0a0a0a] rounded-xl card-hover group"
+              className="block p-5 border border-[#1e1e35] bg-[#0a0a18] rounded-xl card-hover group"
             >
               <div className="flex items-start justify-between mb-4">
                 <div>
@@ -527,7 +527,7 @@ export default function CompetitiveProgramming() {
               </div>
               <div className="grid grid-cols-2 gap-2">
                 {p.stats.map((s) => (
-                  <div key={s.label} className="bg-[#0f0f0f] rounded-lg p-2.5">
+                  <div key={s.label} className="bg-[#0e0e1e] rounded-lg p-2.5">
                     <div className="text-base font-bold font-code text-[#e0e0e0]">
                       {s.value}
                     </div>
@@ -545,7 +545,7 @@ export default function CompetitiveProgramming() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mt-8 p-6 border border-[#161616] bg-[#0a0a0a] rounded-2xl"
+          className="mt-8 p-6 border border-[#1e1e35] bg-[#0a0a18] rounded-2xl"
         >
           <div className="grid sm:grid-cols-3 gap-6">
             {[
